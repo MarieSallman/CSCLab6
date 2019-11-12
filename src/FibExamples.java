@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 public class FibExamples {
 
     public static void main(String[] args) {
-       int count = 8;
+       int count = 45;
 
         System.out.println(fibMatrixBig(count));
         System.out.println(fibLoopBig(count));
+        System.out.println(fibFormula(count));
+        System.out.println(fibFormulaBig(count));
     }
 
 
@@ -58,4 +60,24 @@ public class FibExamples {
     }
 
 
+    private static double fibFormula(int n){
+
+        double phi = (1 + Math.sqrt(5))/2;
+        double b = n;
+        double c = -n;
+        double a = (Math.pow(phi, b) - Math.pow(phi, c))/Math.sqrt(5);
+
+        return a;
+    }
+
+    private static BigDecimal fibFormulaBig(int n){
+        BigDecimal a = new BigDecimal(Math.sqrt(5));
+        BigDecimal b = (BigDecimal.ONE.add(a).divide(BigDecimal.valueOf(2)));
+        BigDecimal c = b.negate().add(BigDecimal.ONE);
+
+        BigDecimal e = b.pow(n).subtract(c.pow(n)).divide(a);
+
+        return e;
+
+    }
 }
