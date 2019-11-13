@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class FibExamples {
@@ -26,13 +27,13 @@ public class FibExamples {
 
         /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
 
-
+        /*
         runFullExperiment("MatrixBig-Exp1.txt");
 
         runFullExperiment("MatrixBig-Exp2.txt");
 
         runFullExperiment("MatrixBig-Exp3.txt");
-
+        */
 
         /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
 
@@ -42,18 +43,23 @@ public class FibExamples {
         runFullExperiment("FibForm-Exp2.txt");
 
         runFullExperiment("FibForm-Exp3.txt");
+
+        System.out.println(fibFormula(71));
         */
 
         /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
 
-        /*
-        runFullExperiment("FibBig-Exp1.txt");
+
+        /*runFullExperiment("FibBig-Exp1.txt");
 
         runFullExperiment("FibBig-Exp2.txt");
 
         runFullExperiment("FibBig-Exp3.txt");
         */
-
+        System.out.println("fibFormulaBig(8) = "+fibFormulaBig(8));
+        System.out.println("fibMatrixBig(8) = " + fibMatrixBig(8));
+        System.out.println("fibMatrixBig(8) = " + fibFormula(8));
+        System.out.println("fibLoopBig(8) = " + fibLoopBig(8));
     }
 
 
@@ -104,14 +110,16 @@ public class FibExamples {
     }
 
 
-    private static double fibFormula(int n){
+    private static String fibFormula(int n){
 
         double phi = (1 + Math.sqrt(5))/2;
         double b = n;
         double c = -n;
         double a = (Math.pow(phi, b) - Math.pow(phi, c))/Math.sqrt(5);
 
-        return a;
+        DecimalFormat d = new DecimalFormat("#.##");
+        return d.format(a);
+
     }
 
     private static BigDecimal fibFormulaBig(int n){
@@ -121,7 +129,7 @@ public class FibExamples {
         BigDecimal x, squareRoot;
 
         x = new BigDecimal(5);
-        MathContext mc = new MathContext(800);
+        MathContext mc = new MathContext(8);
         squareRoot = x.sqrt(mc);
 
 
@@ -151,7 +159,7 @@ public class FibExamples {
         }
 
 
-        long numberOfTrials = 10000;
+        long numberOfTrials = 5;
         ThreadCpuStopWatch BatchStopwatch = new ThreadCpuStopWatch(); // for timing an entire set of trials
 
         ThreadCpuStopWatch TrialStopwatch = new ThreadCpuStopWatch(); // for timing an individual trial
@@ -162,7 +170,7 @@ public class FibExamples {
 
         resultsWriter.flush();
 
-        for(int inputNumber=1;inputNumber<=32768; inputNumber*=2) {
+        for(int inputNumber=1;inputNumber<=1024; inputNumber*=2) {
 
             // progress message...
 
@@ -209,15 +217,15 @@ public class FibExamples {
 
 
                 /* Uncomment this when running addition tests.  Make sure to uncomment in main as well. */
-                fibMatrixBig(count);
+                //fibMatrixBig(count);
 
 
                 /* Uncomment this when running faster multiplication tests.  Make sure to uncomment in main as well */
-                //System.out.println(fibFormula(count));
+                //fibFormula(count);
 
 
                 /* Uncomment this when running faster multiplication tests.  Make sure to uncomment in main as well */
-                //System.out.println(fibFormulaBig(count));
+                fibFormulaBig(count);
 
 
 

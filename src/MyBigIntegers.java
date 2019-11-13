@@ -112,7 +112,7 @@ public class MyBigIntegers {
         {
             product = product;
         }*/
-        //System.out.println("Product of the two numbers is : "+product);
+        System.out.println("Product of the two numbers is (simple multiplication) : "+product);
 
 
         return x;
@@ -208,7 +208,7 @@ public class MyBigIntegers {
 
         string.append(str);
         string = string.reverse();
-        //System.out.println("The sum of the two numbers is : " + neg + string);
+        System.out.println("The sum of the two numbers is : " + neg + string);
 
 
 
@@ -410,7 +410,7 @@ public class MyBigIntegers {
 
         string.append(str);
         string = string.reverse();
-        //System.out.println("The sum of the two numbers is : " + neg + string);
+        System.out.println("The sum of the two numbers is : " + neg + string);
 
         return x;
     }
@@ -428,7 +428,7 @@ public class MyBigIntegers {
         System.out.println("String 1 = ");
         A.ToString();
 
-        MyBigIntegers B = new MyBigIntegers("100");
+        MyBigIntegers B = new MyBigIntegers("-10000");
         System.out.println("String 2 = ");
         B.ToString();
 
@@ -436,6 +436,7 @@ public class MyBigIntegers {
         A.plus(B);
 
         A.times(B);
+
 
         System.out.println("The faster multiplication = " + ktmult(A.value(), B.value()));
 
@@ -449,6 +450,7 @@ public class MyBigIntegers {
         //runFullExperiment("BigInt-Exp3.txt");
 
 
+
         /* Uncomment these when running simple multiplication tests.  Make sure to uncomment in runFullExperiment as well. */
 
         //runFullExperiment("BigInt-Multi-Exp1.txt");
@@ -460,12 +462,12 @@ public class MyBigIntegers {
 
         /* Uncomment these when running faster multiplication tests.  Make sure to uncomment in runFullExperiment as well. */
 
-        runFullExperiment("BigInt-Faster-Exp1.txt");
+        /*runFullExperiment("BigInt-Faster-Exp1.txt");
 
         runFullExperiment("BigInt-Faster-Exp2.txt");
 
         runFullExperiment("BigInt-Faster-Exp3.txt");
-
+        */
     }
 
 
@@ -487,7 +489,7 @@ public class MyBigIntegers {
         }
 
 
-        long numberOfTrials = 10000;
+        long numberOfTrials = 1000;
         ThreadCpuStopWatch BatchStopwatch = new ThreadCpuStopWatch(); // for timing an entire set of trials
 
         ThreadCpuStopWatch TrialStopwatch = new ThreadCpuStopWatch(); // for timing an individual trial
