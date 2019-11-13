@@ -1,15 +1,59 @@
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.Random;
 
 public class FibExamples {
 
-    public static void main(String[] args) {
-       int count = 45;
+    static String ResultsFolderPath = "/home/marie/Results/"; // pathname to results folder
 
-        System.out.println(fibMatrixBig(count));
-        System.out.println(fibLoopBig(count));
-        System.out.println(fibFormula(count));
-        System.out.println(fibFormulaBig(count));
+    static FileWriter resultsFile;
+
+    static PrintWriter resultsWriter;
+
+    public static void main(String[] args) {
+        /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
+
+        /*
+        runFullExperiment("LoopBig-Exp1.txt");
+
+        runFullExperiment("LoopBig-Exp2.txt");
+
+        runFullExperiment("LoopBig-Exp3.txt");
+        */
+
+        /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
+
+
+        runFullExperiment("MatrixBig-Exp1.txt");
+
+        runFullExperiment("MatrixBig-Exp2.txt");
+
+        runFullExperiment("MatrixBig-Exp3.txt");
+
+
+        /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
+
+        /*
+        runFullExperiment("FibForm-Exp1.txt");
+
+        runFullExperiment("FibForm-Exp2.txt");
+
+        runFullExperiment("FibForm-Exp3.txt");
+        */
+
+        /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
+
+        /*
+        runFullExperiment("FibBig-Exp1.txt");
+
+        runFullExperiment("FibBig-Exp2.txt");
+
+        runFullExperiment("FibBig-Exp3.txt");
+        */
+
     }
 
 
@@ -71,13 +115,131 @@ public class FibExamples {
     }
 
     private static BigDecimal fibFormulaBig(int n){
-        BigDecimal a = new BigDecimal(Math.sqrt(5));
-        BigDecimal b = (BigDecimal.ONE.add(a).divide(BigDecimal.valueOf(2)));
+
+
+
+        BigDecimal x, squareRoot;
+
+        x = new BigDecimal(5);
+        MathContext mc = new MathContext(800);
+        squareRoot = x.sqrt(mc);
+
+
+        BigDecimal b = (BigDecimal.ONE.add(squareRoot).divide(BigDecimal.valueOf(2)));
         BigDecimal c = b.negate().add(BigDecimal.ONE);
 
-        BigDecimal e = b.pow(n).subtract(c.pow(n)).divide(a);
+        BigDecimal e = b.pow(n).subtract(c.pow(n)).divide(squareRoot);
 
         return e;
+
+    }
+
+    static void runFullExperiment(String resultsFileName){
+
+        try {
+
+            resultsFile = new FileWriter(ResultsFolderPath + resultsFileName);
+
+            resultsWriter = new PrintWriter(resultsFile);
+
+        } catch(Exception e) {
+
+            System.out.println("*****!!!!!  Had a problem opening the results file "+ResultsFolderPath+resultsFileName);
+
+            return; // not very foolproof... but we do expect to be able to create/open the file...
+
+        }
+
+
+        long numberOfTrials = 10000;
+        ThreadCpuStopWatch BatchStopwatch = new ThreadCpuStopWatch(); // for timing an entire set of trials
+
+        ThreadCpuStopWatch TrialStopwatch = new ThreadCpuStopWatch(); // for timing an individual trial
+
+
+
+        resultsWriter.println("#InputNumber       AverageTime     Number of Trials"); // # marks a comment in gnuplot data
+
+        resultsWriter.flush();
+
+        for(int inputNumber=1;inputNumber<=32768; inputNumber*=2) {
+
+            // progress message...
+
+            System.out.println("Running test for digit size "+inputNumber+" ... ");
+
+
+
+            /* repeat for desired number of trials (for a specific size of input)... */
+
+            long batchElapsedTime = 0;
+
+            // generate a list of randomly spaced integers in ascending sorted order to use as test input
+
+            // In this case we're generating one list to use for the entire set of trials (of a given input size)
+
+            // but we will randomly generate the search key for each trial
+
+
+
+
+
+
+            // instead of timing each individual trial, we will time the entire set of trials (for a given input size)
+
+            // and divide by the number of trials -- this reduces the impact of the amount of time it takes to call the
+
+            // stopwatch methods themselves
+
+            //BatchStopwatch.start(); // comment this line if timing trials individually
+
+
+
+            // run the tirals
+
+            for (long trial = 0; trial < numberOfTrials; trial++) {
+
+                int count = inputNumber;
+
+
+                TrialStopwatch.start(); // *** uncomment this line if timing trials individually
+
+                /* Uncomment this when running simple multiplication tests.  Make sure to uncomment in main as well. */
+                //fibLoopBig(count);
+
+
+                /* Uncomment this when running addition tests.  Make sure to uncomment in main as well. */
+                fibMatrixBig(count);
+
+
+                /* Uncomment this when running faster multiplication tests.  Make sure to uncomment in main as well */
+                //System.out.println(fibFormula(count));
+
+
+                /* Uncomment this when running faster multiplication tests.  Make sure to uncomment in main as well */
+                //System.out.println(fibFormulaBig(count));
+
+
+
+                batchElapsedTime = batchElapsedTime + TrialStopwatch.elapsedTime(); // *** uncomment this line if timing trials individually
+
+            }
+
+            //batchElapsedTime = BatchStopwatch.elapsedTime(); // *** comment this line if timing trials individually
+
+            double averageTimePerTrialInBatch = (double) batchElapsedTime / (double)numberOfTrials; // calculate the average time per trial in this batch
+
+
+
+            /* print data for this size of input */
+
+            resultsWriter.printf("%12d  %15.2f  %12d \n",inputNumber, averageTimePerTrialInBatch, numberOfTrials); // might as well make the columns look nice
+
+            resultsWriter.flush();
+
+            System.out.println(" ....done.");
+
+        }
 
     }
 }
