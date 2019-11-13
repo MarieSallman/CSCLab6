@@ -24,15 +24,16 @@ public class OldFib {
 
         /* Uncomment for fibFormula tests, remember to uncomment in runFullExperiment as well. */
 
-
+        /*
         runFullExperiment("FibMatrix-Exp1.txt");
 
         runFullExperiment("FibMatrix-Exp2.txt");
 
         runFullExperiment("FibMatrix-Exp3.txt");
+        */
 
-
-        System.out.println(fibLoop(46));
+        System.out.println("fibLoop(46) = " + fibLoop(46));
+        System.out.println("fibMatrix(46) = " + fibMatrix(46));
 
     }
 
